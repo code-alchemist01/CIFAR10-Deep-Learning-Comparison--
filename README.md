@@ -118,11 +118,20 @@ Uygulama `http://localhost:8502` adresinde çalışacaktır.
 - Güven skorları ile interaktif grafikler
 - Tahmin sonuçlarının görselleştirilmesi
 
+  <img width="1880" height="620" alt="Ekran görüntüsü 2025-10-01 014400" src="https://github.com/user-attachments/assets/99a95c5a-dcd2-4cae-904e-49e7cf3b00fb" />
+<img width="1876" height="730" alt="Ekran görüntüsü 2025-10-01 014615" src="https://github.com/user-attachments/assets/dd6fa4b0-f894-4372-b7a1-443cfbe85d15" />
+<img width="1892" height="733" alt="Ekran görüntüsü 2025-10-01 014601" src="https://github.com/user-attachments/assets/62aee5f6-f224-4a77-b6f5-f190fd88b561" />
+<img width="1892" height="758" alt="Ekran görüntüsü 2025-10-01 014756" src="https://github.com/user-attachments/assets/66f34b01-f376-4c4b-bd6a-3d529452d93f" />
+
 ### 📊 Model Karşılaştırması
 - Detaylı performans analizi
 - Eğitim eğrileri görselleştirmesi
 - Confusion matrix analizi
 - Model özelliklerinin karşılaştırılması
+
+<img width="1875" height="863" alt="Ekran görüntüsü 2025-10-01 014429" src="https://github.com/user-attachments/assets/c3d26f0a-d407-47a7-bff8-59d016b3d443" />
+
+  
 
 ## 🧠 Model Mimarileri
 
