@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CIFAR10 Deep Learning Comparison - Demo</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+            padding: 40px 0;
+        }
+        
+        .header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .header p {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+        
+        .card h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .card p {
+            color: #666;
+            margin-bottom: 15px;
+        }
+        
+        .features {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .features h2 {
+            color: #667eea;
+            margin-bottom: 30px;
+            text-align: center;
+            font-size: 2.5rem;
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        .feature-item {
+            padding: 20px;
+            background: #f8f9ff;
+            border-radius: 10px;
+            text-align: center;
+            border-left: 4px solid #667eea;
+        }
+        
+        .feature-item i {
+            font-size: 2rem;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        
+        .model-results {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .model-results h2 {
+            color: #667eea;
+            margin-bottom: 30px;
+            text-align: center;
+            font-size: 2.5rem;
+        }
+        
+        .results-table {
+            overflow-x: auto;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        th, td {
+            padding: 15px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        th {
+            background: #667eea;
+            color: white;
+            font-weight: 600;
+        }
+        
+        tr:hover {
+            background: #f8f9ff;
+        }
+        
+        .cta {
+            text-align: center;
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .cta h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            margin: 10px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+        
+        .btn i {
+            margin-right: 8px;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .header p {
+                font-size: 1.1rem;
+            }
+            
+            .cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-brain"></i> CIFAR10 Deep Learning Comparison</h1>
+            <p>ResNet18, ResNet34 ve EfficientNet-B0 modellerinin CIFAR10 veri seti üzerinde karşılaştırmalı analizi ve interaktif Streamlit uygulaması</p>
+        </div>
+        
+        <div class="cards">
+            <div class="card">
+                <h3><i class="fas fa-chart-line"></i> Model Performansı</h3>
+                <p>Üç farklı derin öğrenme modelinin detaylı karşılaştırması ve performans analizi</p>
+                <ul style="color: #666; margin-left: 20px;">
+                    <li>ResNet18: %91.2 doğruluk</li>
+                    <li>ResNet34: %92.8 doğruluk</li>
+                    <li>EfficientNet-B0: %94.1 doğruluk</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3><i class="fas fa-desktop"></i> Streamlit Uygulaması</h3>
+                <p>Gerçek zamanlı görüntü sınıflandırma ve model karşılaştırması için interaktif web arayüzü</p>
+                <ul style="color: #666; margin-left: 20px;">
+                    <li>Drag & Drop görüntü yükleme</li>
+                    <li>Canlı tahmin sonuçları</li>
+                    <li>İnteraktif grafikler</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3><i class="fas fa-code"></i> Açık Kaynak</h3>
+                <p>MIT lisansı ile tamamen açık kaynak kod ve detaylı dokümantasyon</p>
+                <ul style="color: #666; margin-left: 20px;">
+                    <li>Temiz ve anlaşılır kod</li>
+                    <li>Detaylı README</li>
+                    <li>Kolay kurulum</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="features">
+            <h2><i class="fas fa-star"></i> Özellikler</h2>
+            <div class="feature-grid">
+                <div class="feature-item">
+                    <i class="fas fa-upload"></i>
+                    <h4>Kolay Görüntü Yükleme</h4>
+                    <p>Drag & drop ile hızlı görüntü yükleme</p>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-bolt"></i>
+                    <h4>Gerçek Zamanlı Tahmin</h4>
+                    <p>Anında model tahminleri</p>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-chart-bar"></i>
+                    <h4>İnteraktif Grafikler</h4>
+                    <p>Plotly ile dinamik görselleştirme</p>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-balance-scale"></i>
+                    <h4>Model Karşılaştırması</h4>
+                    <p>Detaylı performans analizi</p>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-mobile-alt"></i>
+                    <h4>Responsive Tasarım</h4>
+                    <p>Tüm cihazlarda uyumlu</p>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-rocket"></i>
+                    <h4>GPU Desteği</h4>
+                    <p>CUDA ile hızlandırılmış işlem</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="model-results">
+            <h2><i class="fas fa-trophy"></i> Model Sonuçları</h2>
+            <div class="results-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Model</th>
+                            <th>Test Doğruluğu</th>
+                            <th>Parametre Sayısı</th>
+                            <th>Eğitim Süresi</th>
+                            <th>En İyi Epoch</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>ResNet18</strong></td>
+                            <td>91.2%</td>
+                            <td>11.2M</td>
+                            <td>~45 dk</td>
+                            <td>48/50</td>
+                        </tr>
+                        <tr>
+                            <td><strong>ResNet34</strong></td>
+                            <td>92.8%</td>
+                            <td>21.3M</td>
+                            <td>~65 dk</td>
+                            <td>46/50</td>
+                        </tr>
+                        <tr style="background: #f0f8ff;">
+                            <td><strong>EfficientNet-B0</strong></td>
+                            <td><strong>94.1%</strong></td>
+                            <td>4.0M</td>
+                            <td>~55 dk</td>
+                            <td>49/50</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div class="cta">
+            <h2><i class="fas fa-rocket"></i> Projeyi Keşfedin</h2>
+            <p style="margin-bottom: 30px; color: #666; font-size: 1.1rem;">
+                CIFAR10 Deep Learning Comparison projesini GitHub'da inceleyin ve kendi bilgisayarınızda çalıştırın!
+            </p>
+            <a href="https://github.com/username/CIFAR10-Deep-Learning-Comparison" class="btn">
+                <i class="fab fa-github"></i> GitHub Repository
+            </a>
+            <a href="https://github.com/username/CIFAR10-Deep-Learning-Comparison/archive/main.zip" class="btn">
+                <i class="fas fa-download"></i> Kodu İndir
+            </a>
+            <a href="#" class="btn" onclick="alert('Streamlit uygulamasını yerel olarak çalıştırın: streamlit run app.py')">
+                <i class="fas fa-play"></i> Demo Çalıştır
+            </a>
+        </div>
+    </div>
+    
+    <script>
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+        
+        // Add animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+        
+        // Observe all cards and sections
+        document.querySelectorAll('.card, .features, .model-results, .cta').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
